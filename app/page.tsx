@@ -9,6 +9,7 @@ import {
   DropdownMenuRadioItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import React from "react";
 import { useEffect, useState } from "react";
@@ -44,13 +45,25 @@ export default function Home() {
   const [countries, setCountries] = useState<Country[]>([]);
   const [uniqueRegions, setUniqueRegions] = useState<string[]>([]);
   const [selectedRegion, setSelectedRegion] = useState("all");
+  const [searchedCountries, setSearchedCountries] = useState("");
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 
-  const filteredCountries = countries.filter(
-    (country) => selectedRegion === "all" || country.region === selectedRegion,
-  );
+  const handleSearchChange = (event: any) => {
+    setSearchedCountries(event.target.value?.toLowerCase());
+  };
+
+  const filteredCountries = countries.filter((country) => {
+    const isRegionMatch =
+      selectedRegion === "all" || country.region === selectedRegion;
+
+    const isNameMatch = country.name.common
+      .toLowerCase()
+      .includes(searchedCountries);
+
+    return isRegionMatch && isNameMatch;
+  });
 
   // API call for countries data
   useEffect(() => {
@@ -90,17 +103,26 @@ export default function Home() {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error loading countries: {error.message}</p>;
 
-  console.log(selectedRegion);
+  // console.log(selectedRegion);
+  console.log(searchedCountries);
 
   return (
     <main className="flex min-h-screen flex-col items-center p-24">
       <h1 className="mb-5 text-xl font-bold">Folka-Countries</h1>
       <div>
-        <div className="mb-5 flex w-full justify-end">
+        {/* DROPDOWN */}
+        <div className="mb-5 flex w-full justify-between">
+          {/* SEARCH BOX */}
+          <Input
+            type="search"
+            placeholder="Search for a country"
+            className="w-96 p-6"
+            onChange={handleSearchChange}
+          />
           <div className="">
             <DropdownMenu>
               <DropdownMenuTrigger asChild className="w-44">
-                <Button variant="outline">
+                <Button variant="outline" className="p-6">
                   {selectedRegion === "all"
                     ? "Filter by Region"
                     : selectedRegion}
@@ -124,11 +146,12 @@ export default function Home() {
             </DropdownMenu>
           </div>
         </div>
+        {/* DISPLAY COUNTRIES */}
         <div className="grid grid-cols-1 gap-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
           {filteredCountries.map((country) => (
             <Card
               key={country.name.common}
-              className="flex h-72 w-96 flex-col items-center justify-center"
+              className="flex h-72 flex-col items-center justify-center"
             >
               <CardHeader className="flex flex-col items-center">
                 <Image
