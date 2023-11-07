@@ -1,8 +1,14 @@
 import React from "react";
 import Image from "next/image";
 import { BsArrowLeft } from "react-icons/bs";
+import { Country } from "@/lib/types";
 
-const CountryModal = ({ country, onClose }: any) => {
+interface CountryCardProps {
+  country: Country;
+  onClose: () => void;
+}
+
+const CountryModal: React.FC<CountryCardProps> = ({ country, onClose }) => {
   return (
     <div className="fixed left-0 top-0 flex h-full w-full items-center justify-center p-20">
       <div className="max-w-84 z-40 rounded-lg bg-black bg-opacity-80 p-5">
@@ -30,7 +36,7 @@ const CountryModal = ({ country, onClose }: any) => {
               <li>
                 Languages:
                 {Object.values(country.languages).map(
-                  (languages, index, array) => (
+                  (languages: string, index: number, array: string[]) => (
                     <span key={index}>
                       {` ${languages}`}
                       {index < array.length - 1 ? ", " : ""}

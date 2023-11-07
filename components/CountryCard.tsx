@@ -44,17 +44,6 @@ const CountryCard: React.FC<CountryCardProps> = ({ filteredCountries }) => {
               <p>Population: {country.population}</p>
               <p>Region: {country.region}</p>
               <p>Capital: {country.capital}</p>
-              {/* <p>
-                languages:
-                {Object.values(country.languages).map(
-                  (language, index, array) => (
-                    <span key={language}>
-                      {` ${language}`}
-                      {index < array.length - 1 ? ", " : ""}
-                    </span>
-                  ),
-                )}
-              </p> */}
             </CardContent>
           </Card>
         ))}
