@@ -9,8 +9,11 @@ const FilterCountries = ({
   setSearchedCountries,
 }: any) => {
   return (
-    <div className="mb-5 flex w-full justify-between">
-      <Searchbar setSearchedCountries={setSearchedCountries} />
+    <div className="mb-5 flex w-full flex-col gap-2 md:flex-row md:justify-between">
+      <Searchbar
+        setSearchedCountries={setSearchedCountries}
+        className="items-end"
+      />
       <DropdownFilter
         uniqueRegions={uniqueRegions}
         selectedRegion={selectedRegion}
