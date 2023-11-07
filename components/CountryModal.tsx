@@ -1,27 +1,32 @@
 import React from "react";
 import Image from "next/image";
+import { BsArrowLeft } from "react-icons/bs";
 
 const CountryModal = ({ country, onClose }: any) => {
   return (
-    <div className="fixed left-0 top-0 z-40 flex h-full w-full justify-center bg-pink-500 bg-opacity-70 p-20">
-      <div className="flex h-full w-full flex-col justify-center rounded-lg bg-purple-300 p-5">
-        <button onClick={onClose}>Close</button>
-        <div className="flex items-center justify-center gap-52">
+    <div className="fixed left-0 top-0 flex h-full w-full items-center justify-center  p-20">
+      <div className="max-w-84 z-40 rounded-lg bg-black bg-opacity-80 p-5">
+        <button
+          onClick={onClose}
+          className="my-2 mb-6 flex h-8 w-20 items-center justify-center gap-2 text-sm shadow-xl"
+        >
+          <BsArrowLeft />
+          Back
+        </button>
+        <div className="z-40 flex flex-col items-center gap-5 lg:flex-row lg:gap-52">
           <Image
             src={country.flags.png}
             alt={`Flag of ${country.name.common}`}
-            width={500}
-            height={500}
+            width={250}
+            height={250}
           />
-          <article>
-            <h2>{country.name.common}</h2>
+          <article className="flex flex-col gap-4">
+            <h2 className="text-xl font-bold">{country.name.common}</h2>
             <ul>
-              <li>Native Name: {country.name.nativeName.common}</li>
               <li>Population: {country.population}</li>
               <li>Region: {country.region}</li>
               <li>Sub Region: {country.subregion}</li>
               <li>Capital: {country.capital}</li>
-              {/* <li>Currencies: {country}</li> */}
               <li>
                 Languages:
                 {Object.values(country.languages).map(
@@ -34,26 +39,13 @@ const CountryModal = ({ country, onClose }: any) => {
                 )}
               </li>
             </ul>
-            <p className="flex">
-              <h2>Border Countries: </h2>
-              {country.borders ? (
-                <div>
-                  {Object.values(country.borders).map(
-                    (borders, index, array) => (
-                      <span key={country.name}>
-                        {` ${borders}`}
-                        {index < array.length - 1 ? ", " : ""}
-                      </span>
-                    ),
-                  )}
-                </div>
-              ) : (
-                <p>None</p>
-              )}
-            </p>
           </article>
         </div>
       </div>
+      <div
+        className="overlay absolute z-30 h-full w-full bg-black bg-opacity-70"
+        onClick={onClose}
+      />
     </div>
   );
 };
